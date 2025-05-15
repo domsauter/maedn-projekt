@@ -1,11 +1,27 @@
 import pygame
 from spieler import Spieler
+from spielfeld import Spielfeld
 
 # Konstanten
 GELB = (255, 255, 0)
 GRUEN = (0, 255, 0)
 ROT = (255, 0, 0)
 SCHWARZ = (0,0,0)
+
+# Spielfeld
+spielfeld = [
+    (4, 0), (5, 0), (6, 0),
+    (4, 1), (6, 1),
+    (4, 2), (6, 2),
+    (4, 3), (6, 3),
+    (0, 4), (1, 4), (2, 4), (3, 4), (4, 4), (6, 4), (7, 4), (8, 4), (9, 4), (10, 4),
+    (0, 5), (10, 5),
+    (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (6, 6), (7, 6), (8, 6), (9, 6), (10, 6),
+    (4, 7), (6, 7),
+    (4, 8), (6, 8),
+    (4, 9), (6, 9),
+    (4, 10), (5, 10), (6, 10)
+]
 
 farben = {
     "gelb": GELB,
@@ -37,21 +53,6 @@ while True:
     width = screen.get_width()
     height = screen.get_height()
 
-    # Spielfeld
-    spielfeld = [
-        (4, 0), (5, 0), (6, 0),
-        (4, 1), (6, 1),
-        (4, 2), (6, 2),
-        (4, 3), (6, 3),
-        (0, 4), (1, 4), (2, 4), (3, 4), (4, 4), (6, 4), (7, 4), (8, 4), (9, 4), (10, 4),
-        (0, 5), (10, 5),
-        (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (6, 6), (7, 6), (8, 6), (9, 6), (10, 6),
-        (4, 7), (6, 7),
-        (4, 8), (6, 8),
-        (4, 9), (6, 9),
-        (4, 10), (5, 10), (6, 10)
-    ]
-
     start = {
         "gelb": (0, 4),
         "gruen": (6, 0),
@@ -75,9 +76,13 @@ while True:
 
     # Spielfeld zeichnen
     feldgroesse = 50
+    felder = Spielfeld()
     for feld in spielfeld:
-        x, y = feld
-        pygame.draw.ellipse(screen, (0,0,0), [x * feldgroesse, y * feldgroesse, feldgroesse, feldgroesse], 1)
+        felder.feld_hinzufügen(x, y, (0,0,0))
+
+    # for feld in spielfeld:
+    #     x, y = feld
+    #     pygame.draw.ellipse(screen, (0,0,0), [x * feldgroesse, y * feldgroesse, feldgroesse, feldgroesse], 1)
 
     # Startfelder zeichnen
     for key in figuren:
