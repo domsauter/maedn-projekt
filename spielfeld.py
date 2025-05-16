@@ -2,7 +2,7 @@ class Feld:
     """"""
     def __init__(self, position, farbe=None):
         self.position = position
-        self.position = farbe
+        self.farbe = farbe
         self.figur = None
 
 

@@ -1,6 +1,6 @@
 import random
 
-class Player:
+class Spieler:
         """"""
         def __init__(self):
             self.figuren_draussen = False

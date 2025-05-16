@@ -78,7 +78,9 @@ while True:
     feldgroesse = 50
     felder = Spielfeld()
     for feld in spielfeld:
-        felder.feld_hinzufügen(x, y, (0,0,0))
+        felder.feld_hinzufügen(feld[0], feld[1], (0,0,0))
+        f = felder.felder[(feld[0], feld[1])]
+        pygame.draw.ellipse(screen, f.farbe, [f.position[0] * feldgroesse, f.position[1] * feldgroesse, feldgroesse, feldgroesse], 1)
 
     # for feld in spielfeld:
     #     x, y = feld
