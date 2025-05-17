@@ -30,6 +30,26 @@ farben = {
     "schwarz": SCHWARZ
 }
 
+start = {
+        "gelb": (0, 4),
+        "gruen": (6, 0),
+        "rot": (10, 6),
+        "schwarz": (4, 10) 
+    }
+
+figuren = {
+    "gelb": [(0, 0), (1, 0), (0, 1), (1, 1)],
+    "gruen": [(9, 0), (10, 0), (9, 1), (10, 1)],
+    "rot": [(9, 9), (10, 9), (9, 10), (10, 10)],
+    "schwarz": [(0, 9), (1, 9), (0, 10), (1, 10)]
+}
+
+zielfelder = {
+    "gelb": [(1, 5), (2, 5), (3, 5), (4, 5)],
+    "gruen": [(5, 1), (5, 2), (5, 3), (5, 4)],
+    "rot": [(6, 5), (7, 5), (8, 5), (9, 5)],
+    "schwarz": [(5, 6), (5, 7), (5, 8), (5, 9)]
+}
 
 # Pygame initialisieren
 pygame.init()
@@ -40,11 +60,16 @@ screen = pygame.display.set_mode((900, 720))
 # Titel setzen
 pygame.display.set_caption("Mensch ärgere Dich nicht!")
 
+felder = Spielfeld()
+spieler = Spieler(farben["schwarz"], felder, start["schwarz"])
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(spieler.wuerfeln())
 
     # Spielfeld weiß darstellen
     screen.fill((255, 255, 255))
@@ -53,51 +78,27 @@ while True:
     width = screen.get_width()
     height = screen.get_height()
 
-    start = {
-        "gelb": (0, 4),
-        "gruen": (6, 0),
-        "rot": (10, 6),
-        "schwarz": (4, 10) 
-    }
-
-    figuren = {
-        "gelb": [(0, 0), (1, 0), (0, 1), (1, 1)],
-        "gruen": [(9, 0), (10, 0), (9, 1), (10, 1)],
-        "rot": [(9, 9), (10, 9), (9, 10), (10, 10)],
-        "schwarz": [(0, 9), (1, 9), (0, 10), (1, 10)]
-    }
-
-    zielfelder = {
-        "gelb": [(1, 5), (2, 5), (3, 5), (4, 5)],
-        "gruen": [(5, 1), (5, 2), (5, 3), (5, 4)],
-        "rot": [(6, 5), (7, 5), (8, 5), (9, 5)],
-        "schwarz": [(5, 6), (5, 7), (5, 8), (5, 9)]
-    }
-
     # Spielfeld zeichnen
     feldgroesse = 50
-    felder = Spielfeld()
     for feld in spielfeld:
         felder.feld_hinzufügen(feld[0], feld[1], (0,0,0))
         f = felder.felder[(feld[0], feld[1])]
         pygame.draw.ellipse(screen, f.farbe, [f.position[0] * feldgroesse, f.position[1] * feldgroesse, feldgroesse, feldgroesse], 1)
 
-    # for feld in spielfeld:
-    #     x, y = feld
-    #     pygame.draw.ellipse(screen, (0,0,0), [x * feldgroesse, y * feldgroesse, feldgroesse, feldgroesse], 1)
-
     # Startfelder zeichnen
     for key in figuren:
         for feld in figuren[key]:
-            x, y = feld
-            pygame.draw.ellipse(screen, farben[key], [x * feldgroesse, y * feldgroesse, feldgroesse, feldgroesse], 0)
+            felder.feld_hinzufügen(feld[0], feld[1], farben[key])
+            f = felder.felder[(feld[0], feld[1])]
+            pygame.draw.ellipse(screen, f.farbe, [f.position[0] * feldgroesse, f.position[1] * feldgroesse, feldgroesse, feldgroesse], 0)
 
 
      # Zielfelder zeichnen
     for key in zielfelder:
         for feld in zielfelder[key]:
-            x, y = feld
-            pygame.draw.ellipse(screen, farben[key], [x * feldgroesse, y * feldgroesse, feldgroesse, feldgroesse], 0)
+            felder.feld_hinzufügen(feld[0], feld[1], farben[key])
+            f = felder.felder[(feld[0], feld[1])]
+            pygame.draw.ellipse(screen, f.farbe, [f.position[0] * feldgroesse, f.position[1] * feldgroesse, feldgroesse, feldgroesse], 1)
 
     # Spielfeld aktualisieren
     pygame.display.flip()
